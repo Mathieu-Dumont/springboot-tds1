@@ -10,5 +10,4 @@ public class Td0Application {
 		SpringApplication.run(Td0Application.class, args);
 	}
 	
-	
 }
