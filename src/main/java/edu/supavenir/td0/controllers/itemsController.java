@@ -19,16 +19,16 @@ import edu.supavenir.td0.models.Categorie;
 import edu.supavenir.td0.models.Element;
 import edu.supavenir.td0.technics.CssMessage;
 
-@SessionAttributes("categorie")
+@SessionAttributes("categories")
 @Controller
 public class itemsController {
 
-	@ModelAttribute("categorie")
+	@ModelAttribute("categories")
 	public List<Categorie> getcategorie() {
 		return Arrays.asList(new Categorie("Famille"), new Categorie("Amis"));
 	}
 
-	@GetMapping("/categorie")
+	@GetMapping("/")
 	public String categorieAction() {
 		return "index";
 	}
