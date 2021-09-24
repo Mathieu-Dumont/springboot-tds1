@@ -1,11 +1,22 @@
 {{> /inc/header}}
-<h1>List Items</h1>
+<h1>List Categories</h1>
 <ul>
-	{{#items}}
-		<li>{{nom}}</li>
-	{{/items}}
+	{{#categories}}
+		<li>{{libelle}}</li>
+	{{/categories}}
 </ul>
 
+{{#msg}}
+<div class="ui icon {{type}} message">
+	<i class="{{icon}} icon"></i>
+	  <div class="content">
+		<div class="header">
+			Insertion reussi
+		</div>
+		<p>{{{content}}}
+	  </div>
+</div>
+{{/msg}}
 <input type="submit" value="valider" onclick="window.location.href = '/test/add';">
 
 {{> /inc/footer}}

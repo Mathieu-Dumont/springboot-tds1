@@ -1,9 +1,12 @@
 package edu.supavenir.td0.models;
 
+import java.util.List;
+
 public class Element {
 
 	private String nom;
 	private int evaluation;
+	private List<Categorie> categorie;
 
 	public Element() {
 		super();

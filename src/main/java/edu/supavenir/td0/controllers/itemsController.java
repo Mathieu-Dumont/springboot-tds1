@@ -1,73 +1,99 @@
 package edu.supavenir.td0.controllers;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.supavenir.td0.models.Categorie;
 import edu.supavenir.td0.models.Element;
+import edu.supavenir.td0.technics.CssMessage;
 
-@SessionAttributes("items")
+@SessionAttributes("categorie")
 @Controller
 public class itemsController {
 
-	@ModelAttribute("items")
-	public List<Element> getItems() {
-		return new ArrayList<>();
+	@ModelAttribute("categorie")
+	public List<Categorie> getcategorie() {
+		return Arrays.asList(new Categorie("Famille"), new Categorie("Amis"));
 	}
 
-	@GetMapping("/items")
-	public String itemsAction() {
+	@GetMapping("/categorie")
+	public String categorieAction() {
 		return "index";
 	}
 
 	@GetMapping("test/add")
-	public RedirectView add(@SessionAttribute List<Element> items) {
+	public RedirectView add(@SessionAttribute List<Categorie> categories, RedirectAttributes attrs,
+			@PathVariable String categorie) {
 		Element elm = new Element();
 		elm.setNom("bop");
-		if (!items.contains(elm)) {
-			items.add(elm);
+		Categorie ctg = new Categorie(categorie);
+		if (!categories.contains(ctg)) {
+			int index = categories.indexOf(ctg);
+			categories.get(index);
+			ctg.AddItems(elm);
+			attrs.addFlashAttribute("msg", CssMessage.SucessMessage("Element <b>" + elm + "</b> ajouté"));
+		} else {
+			attrs.addFlashAttribute("msg", CssMessage.ErrorMessage("Cet élément existe déjà !"));
 		}
-		items.add(elm);
-		return new RedirectView("/items");
+		return new RedirectView("/categorie");
 	}
 
-	@PostMapping("/items/new")
+	// @PostMapping(path = "/categorie/addNew")
+	// public RedirectView add(Element elm, @SessionAttribute List<Element>
+	// categorie) {
+	// if (!categorie.contains(elm)) {
+	// categorie.add(elm);
+	// }
+	// return new RedirectView("/");
+	// }
+
+	@PostMapping("/categorie/new")
 	@ResponseBody
-	public RedirectView itemsAdd(@RequestParam String nom, @SessionAttribute List<Element> items) {
-		Element Mathieu = new Element();
-		Mathieu.setNom(nom);
-		items.add(Mathieu);
-		return new RedirectView("/items");
+	public RedirectView categorieAdd(@RequestParam String nom, @SessionAttribute List<Element> categorie,
+			RedirectAttributes attrs) {
+		Element elm = new Element();
+		elm.setNom(nom);
+		if (!categorie.contains(elm)) {
+			categorie.add(elm);
+			attrs.addFlashAttribute("msg", CssMessage.SucessMessage("Element <b>" + elm + "</b> ajouté"));
+		} else {
+			attrs.addFlashAttribute("msg", CssMessage.ErrorMessage("Cet élément existe déjà !"));
+		}
+		categorie.add(elm);
+		return new RedirectView("/categorie");
 	}
 
-	@GetMapping("/items/new")
-	public String itemsNew() {
+	@GetMapping("/categorie/new")
+	public String categorieNew() {
 		return "formAddItem";
 	}
 
-	@GetMapping("/items/inc{nom}")
-	public RedirectView Inc(@SessionAttribute List<Element> items, String nom) {
+	@GetMapping("/categorie/inc{nom}")
+	public RedirectView Inc(@SessionAttribute List<Element> categorie, String nom) {
 		Element element = new Element(nom);
-		int index = items.indexOf(element);
-		items.get(index).inc();
-		return new RedirectView("/items");
+		int index = categorie.indexOf(element);
+		categorie.get(index).inc();
+		return new RedirectView("/categorie");
 	}
 
-	@GetMapping("/items/dec{nom}")
-	public RedirectView Dec(@SessionAttribute List<Element> items, String nom) {
+	@GetMapping("/categorie/dec{nom}")
+	public RedirectView Dec(@SessionAttribute List<Element> categorie, String nom) {
 		Element element = new Element(nom);
-		int index = items.indexOf(element);
-		items.get(index).dec();
-		return new RedirectView("/items");
+		int index = categorie.indexOf(element);
+		categorie.get(index).dec();
+		return new RedirectView("/categorie");
 	}
 
 }
