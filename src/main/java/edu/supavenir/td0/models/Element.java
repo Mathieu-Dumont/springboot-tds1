@@ -48,4 +48,12 @@ public class Element {
 		return ((Element) obj).getNom().equals(this.nom);
 	}
 
+	public List<Categorie> getCategorie() {
+	    return categorie;
+	}
+
+	public void setCategorie(List<Categorie> categorie) {
+	    this.categorie = categorie;
+	}
+
 }

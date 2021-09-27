@@ -37,13 +37,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.github.jknack/handlebars -->
-		<dependency>
-		    <groupId>pl.allegro.tech.boot</groupId>
-		    <artifactId>handlebars-spring-boot-starter</artifactId>
-		    <version>0.3.1</version>
-		</dependency>
-		
 	</dependencies>
 
 	<build>
